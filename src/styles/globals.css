@@ -1,6 +1,16 @@
 @import "tailwindcss";
 
+@plugin "daisyui" {
+  themes: light --default;
+}
+
 @theme inline {
   --font-sans: var(--font-sans), sans-serif;
   --font-mono: var(--font-mono), monospace;
+}
+
+@layer base {
+  .lucide {
+    @apply size-4;
+  }
 }
