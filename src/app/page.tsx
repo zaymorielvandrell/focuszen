@@ -6,10 +6,31 @@ import {
   RotateCcwIcon,
   SkipForwardIcon
 } from "lucide-react";
+import { useMemo } from "react";
 import { usePomodoroKeyboardShortcuts } from "~/hooks/usePomodoroKeyboardShortcuts";
+import { usePomodoroSettings } from "~/hooks/usePomodoroSettings";
 import { usePomodoroTimer } from "~/hooks/usePomodoroTimer";
 
 const Page = () => {
+  const pomodoroSettings = usePomodoroSettings();
+
+  const timerSettings = useMemo(
+    () => ({
+      focusMinutes: pomodoroSettings.focusMinutes.value,
+      shortBreakMinutes: pomodoroSettings.shortBreakMinutes.value,
+      longBreakMinutes: pomodoroSettings.longBreakMinutes.value,
+      notificationsEnabled: pomodoroSettings.notificationsEnabled.value,
+      soundEnabled: pomodoroSettings.soundEnabled.value
+    }),
+    [
+      pomodoroSettings.focusMinutes.value,
+      pomodoroSettings.shortBreakMinutes.value,
+      pomodoroSettings.longBreakMinutes.value,
+      pomodoroSettings.notificationsEnabled.value,
+      pomodoroSettings.soundEnabled.value
+    ]
+  );
+
   const {
     isRunning,
     timeDisplay,
@@ -17,7 +38,7 @@ const Page = () => {
     toggleTimer,
     resetTimer,
     skipSession
-  } = usePomodoroTimer();
+  } = usePomodoroTimer({ settings: timerSettings });
 
   usePomodoroKeyboardShortcuts({
     toggleTimer,
@@ -26,7 +47,7 @@ const Page = () => {
   });
 
   return (
-    <div className="card w-full bg-base-100 shadow-sm card-border">
+    <div className="card w-full bg-base-100 shadow-sm">
       <div className="card-body">
         <div className="flex items-center justify-center gap-2">
           <button
@@ -48,7 +69,7 @@ const Page = () => {
             Long
           </button>
         </div>
-        <p className="py-8 text-center font-mono text-[11rem]">{timeDisplay}</p>
+        <p className="py-8 text-center font-mono text-[10rem]">{timeDisplay}</p>
         <div className="card-actions flex-col items-center justify-center gap-8">
           <div className="flex items-center gap-2">
             <button

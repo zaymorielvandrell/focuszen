@@ -34,7 +34,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           <header>
             <nav className="navbar">
               <div className="navbar-start">
-                <Link href="/" className="text-xl font-semibold tracking-tight">
+                <Link href="/" className="text-xl font-semibold">
                   FocusZen
                 </Link>
               </div>
