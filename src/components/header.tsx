@@ -45,27 +45,27 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="navbar">
-        <div className="navbar-start">
+      <nav className="navbar flex-col gap-4 sm:flex-row">
+        <div className="navbar-start justify-center sm:justify-start">
           <Link href="/" className="text-xl font-semibold">
             FocusZen
           </Link>
         </div>
-        <div className="navbar-end gap-2">
+        <div className="navbar-end justify-center gap-2 sm:justify-start">
           <Link href="/" className="btn btn-sm">
             <TimerIcon />
-            Timer
-            <kbd className="kbd kbd-sm">1</kbd>
+            <span className="hidden sm:inline-block">Timer</span>
+            <kbd className="kbd hidden kbd-sm sm:inline-flex">1</kbd>
           </Link>
           <Link href="/stats" className="btn btn-sm">
             <ChartNoAxesColumnIcon />
-            Stats
-            <kbd className="kbd kbd-sm">2</kbd>
+            <span className="hidden sm:inline-block">Stats</span>
+            <kbd className="kbd hidden kbd-sm sm:inline-flex">2</kbd>
           </Link>
           <Link href="/settings" className="btn btn-sm">
             <SettingsIcon />
-            Settings
-            <kbd className="kbd kbd-sm">3</kbd>
+            <span className="hidden sm:inline-block">Settings</span>
+            <kbd className="kbd hidden kbd-sm sm:inline-flex">3</kbd>
           </Link>
         </div>
       </nav>

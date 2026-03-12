@@ -69,7 +69,9 @@ const Page = () => {
             Long
           </button>
         </div>
-        <p className="py-8 text-center font-mono text-[10rem]">{timeDisplay}</p>
+        <p className="py-8 text-center font-mono text-8xl sm:text-9xl md:text-[10rem]">
+          {timeDisplay}
+        </p>
         <div className="card-actions flex-col items-center justify-center gap-8">
           <div className="flex items-center gap-2">
             <button
