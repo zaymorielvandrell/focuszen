@@ -6,7 +6,7 @@ import {
   SettingsIcon,
   Volume2Icon
 } from "lucide-react";
-import { usePomodoroSettings } from "~/hooks/usePomodoroSettings";
+import { usePomodoroSettings } from "~/hooks/use-pomodoro-settings";
 
 const Settings = () => {
   const {

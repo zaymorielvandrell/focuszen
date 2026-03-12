@@ -8,8 +8,8 @@ import {
   SHORT_BREAK_MINUTES_STORAGE_KEY,
   SOUND_STORAGE_KEY
 } from "~/constants/pomodoro";
-import { useBooleanPreference } from "~/hooks/useBooleanPreference";
-import { useNumberPreference } from "~/hooks/useNumberPreference";
+import { useBooleanPreference } from "~/hooks/use-boolean-preference";
+import { useNumberPreference } from "~/hooks/use-number-preference";
 
 export const usePomodoroSettings = () => {
   const focusMinutes = useNumberPreference(

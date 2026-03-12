@@ -7,9 +7,9 @@ import {
   SkipForwardIcon
 } from "lucide-react";
 import { useMemo } from "react";
-import { usePomodoroKeyboardShortcuts } from "~/hooks/usePomodoroKeyboardShortcuts";
-import { usePomodoroSettings } from "~/hooks/usePomodoroSettings";
-import { usePomodoroTimer } from "~/hooks/usePomodoroTimer";
+import { usePomodoroKeyboardShortcuts } from "~/hooks/use-pomodoro-keyboard-shortcuts";
+import { usePomodoroSettings } from "~/hooks/use-pomodoro-settings";
+import { usePomodoroTimer } from "~/hooks/use-pomodoro-timer";
 
 const Page = () => {
   const pomodoroSettings = usePomodoroSettings();
