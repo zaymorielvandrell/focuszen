@@ -6,6 +6,7 @@ import {
   SettingsIcon,
   Volume2Icon
 } from "lucide-react";
+import { SESSION_MINUTES } from "~/constants/pomodoro";
 import { usePomodoroSettings } from "~/hooks/use-pomodoro-settings";
 
 const Settings = () => {
@@ -17,95 +18,144 @@ const Settings = () => {
     soundEnabled
   } = usePomodoroSettings();
 
+  const handleResetData = () => {
+    focusMinutes.setValue(SESSION_MINUTES.focus);
+    shortBreakMinutes.setValue(SESSION_MINUTES.short_break);
+    longBreakMinutes.setValue(SESSION_MINUTES.long_break);
+    notificationsEnabled.setValue(true);
+    soundEnabled.setValue(true);
+
+    const resetModal = document.getElementById("reset-data-modal");
+
+    if (resetModal instanceof HTMLDialogElement) {
+      resetModal.close();
+    }
+  };
+
+  const handleOpenResetModal = () => {
+    const resetModal = document.getElementById("reset-data-modal");
+
+    if (resetModal instanceof HTMLDialogElement) {
+      resetModal.showModal();
+    }
+  };
+
   return (
-    <div className="card mx-auto w-full max-w-xl bg-base-100 shadow-sm">
-      <div className="card-body">
-        <div className="flex items-center gap-2">
-          <SettingsIcon />
-          <h2 className="text-lg font-semibold">Settings</h2>
-        </div>
-        <div className="divider opacity-40"></div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Focus</legend>
-            <input
-              type="number"
-              min={1}
-              className="input"
-              value={focusMinutes.value}
-              onChange={(event) => {
-                focusMinutes.setValue(Number(event.target.value));
-              }}
-            />
-          </fieldset>
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Short</legend>
-            <input
-              type="number"
-              min={1}
-              className="input"
-              value={shortBreakMinutes.value}
-              onChange={(event) => {
-                shortBreakMinutes.setValue(Number(event.target.value));
-              }}
-            />
-          </fieldset>
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Long</legend>
-            <input
-              type="number"
-              min={1}
-              className="input"
-              value={longBreakMinutes.value}
-              onChange={(event) => {
-                longBreakMinutes.setValue(Number(event.target.value));
-              }}
-            />
-          </fieldset>
-        </div>
-        <div className="divider opacity-40"></div>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
-                <BellIcon />
-              </div>
-              <p>Notifications</p>
-            </div>
-            <div>
+    <div>
+      <div className="card mx-auto w-full max-w-xl bg-base-100 shadow-sm">
+        <div className="card-body">
+          <div className="flex items-center gap-2">
+            <SettingsIcon />
+            <h2 className="text-lg font-semibold">Settings</h2>
+          </div>
+          <div className="divider opacity-40"></div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Focus</legend>
               <input
-                type="checkbox"
-                className="toggle"
-                checked={notificationsEnabled.value}
-                onChange={notificationsEnabled.toggle}
+                type="number"
+                min={1}
+                className="input"
+                value={focusMinutes.value}
+                onChange={(event) => {
+                  focusMinutes.setValue(Number(event.target.value));
+                }}
               />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Short</legend>
+              <input
+                type="number"
+                min={1}
+                className="input"
+                value={shortBreakMinutes.value}
+                onChange={(event) => {
+                  shortBreakMinutes.setValue(Number(event.target.value));
+                }}
+              />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Long</legend>
+              <input
+                type="number"
+                min={1}
+                className="input"
+                value={longBreakMinutes.value}
+                onChange={(event) => {
+                  longBreakMinutes.setValue(Number(event.target.value));
+                }}
+              />
+            </fieldset>
+          </div>
+          <div className="divider opacity-40"></div>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
+                  <BellIcon />
+                </div>
+                <p>Notifications</p>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  className="toggle"
+                  checked={notificationsEnabled.value}
+                  onChange={notificationsEnabled.toggle}
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
+                  <Volume2Icon />
+                </div>
+                <p>Sound</p>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  className="toggle"
+                  checked={soundEnabled.value}
+                  onChange={soundEnabled.toggle}
+                />
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
-                <Volume2Icon />
-              </div>
-              <p>Sound</p>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                className="toggle"
-                checked={soundEnabled.value}
-                onChange={soundEnabled.toggle}
-              />
-            </div>
+          <div className="divider opacity-40"></div>
+          <div className="card-actions">
+            <button
+              type="button"
+              className="btn btn-block btn-error"
+              onClick={handleOpenResetModal}>
+              <RefreshCwIcon />
+              Reset Data
+            </button>
           </div>
-        </div>
-        <div className="divider opacity-40"></div>
-        <div className="card-actions">
-          <button type="button" className="btn btn-block btn-error">
-            <RefreshCwIcon />
-            Reset Data
-          </button>
         </div>
       </div>
+      <dialog id="reset-data-modal" className="modal">
+        <div className="modal-box">
+          <h3 className="text-base font-semibold">Reset Pomodoro Settings?</h3>
+          <p className="py-4">
+            This will restore focus, short break, long break, notification, and
+            sound preferences to their default values.
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              <button type="submit" className="btn">
+                Cancel
+              </button>
+            </form>
+            <button
+              type="button"
+              className="btn btn-error"
+              onClick={handleResetData}>
+              Reset Data
+            </button>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
