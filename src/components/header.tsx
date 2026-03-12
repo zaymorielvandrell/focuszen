@@ -1,6 +1,6 @@
 "use client";
 
-import { ChartNoAxesColumnIcon, SettingsIcon, TimerIcon } from "lucide-react";
+import { SettingsIcon, TimerIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -28,10 +28,6 @@ const Header = () => {
       }
 
       if (event.key === "2") {
-        router.push("/stats");
-      }
-
-      if (event.key === "3") {
         router.push("/settings");
       }
     };
@@ -57,15 +53,10 @@ const Header = () => {
             <span className="hidden sm:inline-block">Timer</span>
             <kbd className="kbd hidden kbd-sm sm:inline-flex">1</kbd>
           </Link>
-          <Link href="/stats" className="btn btn-sm">
-            <ChartNoAxesColumnIcon />
-            <span className="hidden sm:inline-block">Stats</span>
-            <kbd className="kbd hidden kbd-sm sm:inline-flex">2</kbd>
-          </Link>
           <Link href="/settings" className="btn btn-sm">
             <SettingsIcon />
             <span className="hidden sm:inline-block">Settings</span>
-            <kbd className="kbd hidden kbd-sm sm:inline-flex">3</kbd>
+            <kbd className="kbd hidden kbd-sm sm:inline-flex">2</kbd>
           </Link>
         </div>
       </nav>
