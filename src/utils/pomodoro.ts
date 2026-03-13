@@ -1,9 +1,5 @@
-import { LONG_BREAK_INTERVAL, SESSION_MINUTES } from "~/constants/pomodoro";
+import { LONG_BREAK_INTERVAL } from "~/constants/pomodoro";
 import type { SessionType } from "~/types/pomodoro";
-
-export const getSessionDurationSeconds = (sessionType: SessionType) => {
-  return SESSION_MINUTES[sessionType] * 60;
-};
 
 export const getNextSession = (
   sessionType: SessionType,
