@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { COMPLETION_SOUND_URL } from "~/constants/pomodoro";
 import type { PomodoroSettings, SessionType } from "~/types/pomodoro";
 import { formatSecondsToClock, getNextSession } from "~/utils/pomodoro";
@@ -56,6 +56,32 @@ const initialState: TimerState = {
   pendingNotification: null
 };
 
+const getCompletionNotificationBody = (sessionType: SessionType) => {
+  if (sessionType === "focus") {
+    return "Focus session complete! Time for a break.";
+  }
+
+  return "Break over! Ready to focus?";
+};
+
+const getNextSessionState = (
+  sessionType: SessionType,
+  sessionsCompleted: number,
+  settings: PomodoroSettings
+) => {
+  const { nextSessionType, nextSessionsCompleted } = getNextSession(
+    sessionType,
+    sessionsCompleted
+  );
+
+  return {
+    sessionType: nextSessionType,
+    isRunning: false,
+    timeLeft: getSessionDurationSeconds(nextSessionType, settings),
+    sessionsCompleted: nextSessionsCompleted
+  };
+};
+
 const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
   switch (action.type) {
     case "sync-settings":
@@ -89,17 +115,13 @@ const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
       };
 
     case "skip-session": {
-      const { nextSessionType, nextSessionsCompleted } = getNextSession(
-        state.sessionType,
-        state.sessionsCompleted
-      );
-
       return {
         ...state,
-        sessionType: nextSessionType,
-        isRunning: false,
-        timeLeft: getSessionDurationSeconds(nextSessionType, state.settings),
-        sessionsCompleted: nextSessionsCompleted
+        ...getNextSessionState(
+          state.sessionType,
+          state.sessionsCompleted,
+          state.settings
+        )
       };
     }
 
@@ -113,24 +135,17 @@ const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
         };
       }
 
-      const { nextSessionType, nextSessionsCompleted } = getNextSession(
-        state.sessionType,
-        state.sessionsCompleted
-      );
-
       return {
         ...state,
-        sessionType: nextSessionType,
-        isRunning: false,
-        timeLeft: getSessionDurationSeconds(nextSessionType, state.settings),
-        sessionsCompleted: nextSessionsCompleted,
+        ...getNextSessionState(
+          state.sessionType,
+          state.sessionsCompleted,
+          state.settings
+        ),
         shouldPlayCompletionSound: state.settings.soundEnabled,
         pendingNotification: {
           title: "FocusZen",
-          body:
-            state.sessionType === "focus"
-              ? "Focus session complete! Time for a break."
-              : "Break over! Ready to focus?"
+          body: getCompletionNotificationBody(state.sessionType)
         }
       };
     }
@@ -160,10 +175,32 @@ export const usePomodoroTimer = ({
   settings = DEFAULT_SETTINGS
 }: UsePomodoroTimerOptions = {}) => {
   const [state, dispatch] = useReducer(timerReducer, initialState);
+  const {
+    focusMinutes,
+    shortBreakMinutes,
+    longBreakMinutes,
+    notificationsEnabled,
+    soundEnabled
+  } = settings;
 
   useEffect(() => {
-    dispatch({ type: "sync-settings", payload: settings });
-  }, [settings]);
+    dispatch({
+      type: "sync-settings",
+      payload: {
+        focusMinutes,
+        shortBreakMinutes,
+        longBreakMinutes,
+        notificationsEnabled,
+        soundEnabled
+      }
+    });
+  }, [
+    focusMinutes,
+    longBreakMinutes,
+    notificationsEnabled,
+    shortBreakMinutes,
+    soundEnabled
+  ]);
 
   useEffect(() => {
     if (!state.settings.notificationsEnabled) return;
@@ -209,21 +246,29 @@ export const usePomodoroTimer = ({
     dispatch({ type: "ack-notification" });
   }, [state.pendingNotification, state.settings.notificationsEnabled]);
 
+  const setSessionType = useCallback((sessionType: SessionType) => {
+    dispatch({ type: "set-session-type", payload: sessionType });
+  }, []);
+
+  const toggleTimer = useCallback(() => {
+    dispatch({ type: "toggle-timer" });
+  }, []);
+
+  const resetTimer = useCallback(() => {
+    dispatch({ type: "reset-timer" });
+  }, []);
+
+  const skipSession = useCallback(() => {
+    dispatch({ type: "skip-session" });
+  }, []);
+
   return {
     sessionType: state.sessionType,
     isRunning: state.isRunning,
     timeDisplay: formatSecondsToClock(state.timeLeft),
-    setSessionType: (sessionType: SessionType) => {
-      dispatch({ type: "set-session-type", payload: sessionType });
-    },
-    toggleTimer: () => {
-      dispatch({ type: "toggle-timer" });
-    },
-    resetTimer: () => {
-      dispatch({ type: "reset-timer" });
-    },
-    skipSession: () => {
-      dispatch({ type: "skip-session" });
-    }
+    setSessionType,
+    toggleTimer,
+    resetTimer,
+    skipSession
   };
 };

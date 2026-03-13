@@ -31,12 +31,13 @@ export const usePomodoroSettings = () => {
   const soundEnabled = useBooleanPreference(SOUND_STORAGE_KEY, true);
 
   return {
-    loaded:
-      focusMinutes.loaded &&
-      shortBreakMinutes.loaded &&
-      longBreakMinutes.loaded &&
-      notificationsEnabled.loaded &&
-      soundEnabled.loaded,
+    settings: {
+      focusMinutes: focusMinutes.value,
+      shortBreakMinutes: shortBreakMinutes.value,
+      longBreakMinutes: longBreakMinutes.value,
+      notificationsEnabled: notificationsEnabled.value,
+      soundEnabled: soundEnabled.value
+    },
     focusMinutes,
     shortBreakMinutes,
     longBreakMinutes,

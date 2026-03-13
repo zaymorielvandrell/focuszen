@@ -61,10 +61,9 @@ export const useBooleanPreference = (
   }, [state.loaded, state.value, storageKey]);
 
   return {
-    loaded: state.loaded,
     value: state.value,
-    setValue: (value: boolean) => {
-      dispatch({ type: "set", payload: value });
+    setValue: (nextValue: boolean) => {
+      dispatch({ type: "set", payload: nextValue });
     },
     toggle: () => {
       dispatch({ type: "toggle" });

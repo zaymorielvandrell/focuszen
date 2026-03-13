@@ -9,30 +9,23 @@ import {
   RotateCcwIcon,
   SkipForwardIcon
 } from "lucide-react";
-import { useMemo } from "react";
 import { usePomodoroKeyboardShortcuts } from "~/hooks/use-pomodoro-keyboard-shortcuts";
 import { usePomodoroSettings } from "~/hooks/use-pomodoro-settings";
 import { usePomodoroTimer } from "~/hooks/use-pomodoro-timer";
+import type { SessionType } from "~/types/pomodoro";
+
+const SESSION_BUTTONS: Array<{
+  icon: typeof BrainIcon;
+  label: string;
+  sessionType: SessionType;
+}> = [
+  { icon: BrainIcon, label: "Focus", sessionType: "focus" },
+  { icon: CoffeeIcon, label: "Short", sessionType: "short_break" },
+  { icon: ArmchairIcon, label: "Long", sessionType: "long_break" }
+];
 
 const Page = () => {
-  const pomodoroSettings = usePomodoroSettings();
-
-  const timerSettings = useMemo(
-    () => ({
-      focusMinutes: pomodoroSettings.focusMinutes.value,
-      shortBreakMinutes: pomodoroSettings.shortBreakMinutes.value,
-      longBreakMinutes: pomodoroSettings.longBreakMinutes.value,
-      notificationsEnabled: pomodoroSettings.notificationsEnabled.value,
-      soundEnabled: pomodoroSettings.soundEnabled.value
-    }),
-    [
-      pomodoroSettings.focusMinutes.value,
-      pomodoroSettings.shortBreakMinutes.value,
-      pomodoroSettings.longBreakMinutes.value,
-      pomodoroSettings.notificationsEnabled.value,
-      pomodoroSettings.soundEnabled.value
-    ]
-  );
+  const { settings } = usePomodoroSettings();
 
   const {
     sessionType,
@@ -42,7 +35,7 @@ const Page = () => {
     toggleTimer,
     resetTimer,
     skipSession
-  } = usePomodoroTimer({ settings: timerSettings });
+  } = usePomodoroTimer({ settings });
 
   usePomodoroKeyboardShortcuts({
     toggleTimer,
@@ -54,27 +47,18 @@ const Page = () => {
     <div className="card w-full bg-base-100 shadow-sm">
       <div className="card-body">
         <div className="flex items-center justify-center gap-2">
-          <button
-            type="button"
-            className={`btn btn-sm ${sessionType === "focus" ? "btn-active" : ""}`}
-            onClick={() => setSessionType("focus")}>
-            <BrainIcon />
-            Focus
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${sessionType === "short_break" ? "btn-active" : ""}`}
-            onClick={() => setSessionType("short_break")}>
-            <CoffeeIcon />
-            Short
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${sessionType === "long_break" ? "btn-active" : ""}`}
-            onClick={() => setSessionType("long_break")}>
-            <ArmchairIcon />
-            Long
-          </button>
+          {SESSION_BUTTONS.map(
+            ({ icon: Icon, label, sessionType: buttonType }) => (
+              <button
+                key={buttonType}
+                type="button"
+                className={`btn btn-sm ${sessionType === buttonType ? "btn-active" : ""}`}
+                onClick={() => setSessionType(buttonType)}>
+                <Icon />
+                {label}
+              </button>
+            )
+          )}
         </div>
         <p className="py-8 text-center font-mono text-8xl sm:text-9xl md:text-[10rem]">
           {timeDisplay}

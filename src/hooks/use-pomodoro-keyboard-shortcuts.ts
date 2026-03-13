@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { isEditableElement } from "~/utils/dom";
 
 type ShortcutActions = {
   toggleTimer: () => void;
@@ -15,26 +16,23 @@ export const usePomodoroKeyboardShortcuts = ({
 }: ShortcutActions) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.target instanceof HTMLInputElement ||
-        event.target instanceof HTMLTextAreaElement ||
-        event.target instanceof HTMLSelectElement ||
-        (event.target instanceof HTMLElement && event.target.isContentEditable)
-      ) {
+      if (isEditableElement(event.target)) {
         return;
       }
 
-      if (event.code === "Space") {
-        event.preventDefault();
-        toggleTimer();
-      }
-
-      if (event.code === "KeyR") {
-        resetTimer();
-      }
-
-      if (event.code === "KeyS") {
-        skipSession();
+      switch (event.code) {
+        case "Space":
+          event.preventDefault();
+          toggleTimer();
+          break;
+        case "KeyR":
+          resetTimer();
+          break;
+        case "KeyS":
+          skipSession();
+          break;
+        default:
+          break;
       }
     };
 

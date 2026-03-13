@@ -6,10 +6,12 @@ import {
   SettingsIcon,
   Volume2Icon
 } from "lucide-react";
+import { useRef } from "react";
 import { SESSION_MINUTES } from "~/constants/pomodoro";
 import { usePomodoroSettings } from "~/hooks/use-pomodoro-settings";
 
 const Settings = () => {
+  const restoreDefaultsModalRef = useRef<HTMLDialogElement>(null);
   const {
     focusMinutes,
     shortBreakMinutes,
@@ -18,14 +20,50 @@ const Settings = () => {
     soundEnabled
   } = usePomodoroSettings();
 
-  const handleOpenRestoreDefaultsModal = () => {
-    const restoreDefaultsModal = document.getElementById(
-      "restore-defaults-modal"
-    );
-
-    if (restoreDefaultsModal instanceof HTMLDialogElement) {
-      restoreDefaultsModal.showModal();
+  const durationFields: Array<{
+    label: string;
+    value: number;
+    setValue: (value: number) => void;
+  }> = [
+    {
+      label: "Focus",
+      value: focusMinutes.value,
+      setValue: focusMinutes.setValue
+    },
+    {
+      label: "Short",
+      value: shortBreakMinutes.value,
+      setValue: shortBreakMinutes.setValue
+    },
+    {
+      label: "Long",
+      value: longBreakMinutes.value,
+      setValue: longBreakMinutes.setValue
     }
+  ];
+
+  const toggleFields: Array<{
+    icon: typeof BellIcon;
+    label: string;
+    checked: boolean;
+    onChange: () => void;
+  }> = [
+    {
+      icon: BellIcon,
+      label: "Notifications",
+      checked: notificationsEnabled.value,
+      onChange: notificationsEnabled.toggle
+    },
+    {
+      icon: Volume2Icon,
+      label: "Sound",
+      checked: soundEnabled.value,
+      onChange: soundEnabled.toggle
+    }
+  ];
+
+  const handleOpenRestoreDefaultsModal = () => {
+    restoreDefaultsModalRef.current?.showModal();
   };
 
   const handleRestoreDefaults = () => {
@@ -34,18 +72,11 @@ const Settings = () => {
     longBreakMinutes.setValue(SESSION_MINUTES.long_break);
     notificationsEnabled.setValue(true);
     soundEnabled.setValue(true);
-
-    const restoreDefaultsModal = document.getElementById(
-      "restore-defaults-modal"
-    );
-
-    if (restoreDefaultsModal instanceof HTMLDialogElement) {
-      restoreDefaultsModal.close();
-    }
+    restoreDefaultsModalRef.current?.close();
   };
 
   return (
-    <div>
+    <>
       <div className="card mx-auto w-full max-w-xl bg-base-100 shadow-sm">
         <div className="card-body">
           <div className="flex items-center gap-2">
@@ -54,77 +85,43 @@ const Settings = () => {
           </div>
           <div className="divider opacity-40"></div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Focus</legend>
-              <input
-                type="number"
-                min={1}
-                className="input"
-                value={focusMinutes.value}
-                onChange={(event) => {
-                  focusMinutes.setValue(Number(event.target.value));
-                }}
-              />
-            </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Short</legend>
-              <input
-                type="number"
-                min={1}
-                className="input"
-                value={shortBreakMinutes.value}
-                onChange={(event) => {
-                  shortBreakMinutes.setValue(Number(event.target.value));
-                }}
-              />
-            </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Long</legend>
-              <input
-                type="number"
-                min={1}
-                className="input"
-                value={longBreakMinutes.value}
-                onChange={(event) => {
-                  longBreakMinutes.setValue(Number(event.target.value));
-                }}
-              />
-            </fieldset>
+            {durationFields.map(({ label, value, setValue }) => (
+              <fieldset key={label} className="fieldset">
+                <legend className="fieldset-legend">{label}</legend>
+                <input
+                  type="number"
+                  min={1}
+                  className="input"
+                  value={value}
+                  onChange={(event) => {
+                    setValue(Number(event.target.value));
+                  }}
+                />
+              </fieldset>
+            ))}
           </div>
           <div className="divider opacity-40"></div>
           <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
-                  <BellIcon />
+            {toggleFields.map(({ icon: Icon, label, checked, onChange }) => (
+              <div
+                key={label}
+                className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
+                    <Icon />
+                  </div>
+                  <p>{label}</p>
                 </div>
-                <p>Notifications</p>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  className="toggle"
-                  checked={notificationsEnabled.value}
-                  onChange={notificationsEnabled.toggle}
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex size-8 items-center justify-center rounded-box bg-base-200">
-                  <Volume2Icon />
+                <div>
+                  <input
+                    type="checkbox"
+                    className="toggle"
+                    checked={checked}
+                    onChange={onChange}
+                  />
                 </div>
-                <p>Sound</p>
               </div>
-              <div>
-                <input
-                  type="checkbox"
-                  className="toggle"
-                  checked={soundEnabled.value}
-                  onChange={soundEnabled.toggle}
-                />
-              </div>
-            </div>
+            ))}
           </div>
           <div className="divider opacity-40"></div>
           <div className="card-actions">
@@ -138,7 +135,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
-      <dialog id="restore-defaults-modal" className="modal">
+      <dialog ref={restoreDefaultsModalRef} className="modal">
         <div className="modal-box">
           <h3 className="text-base font-semibold">Restore Default Settings?</h3>
           <p className="py-4">
@@ -160,7 +157,7 @@ const Settings = () => {
           </div>
         </div>
       </dialog>
-    </div>
+    </>
   );
 };
 

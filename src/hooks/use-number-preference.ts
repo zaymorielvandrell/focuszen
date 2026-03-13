@@ -2,6 +2,16 @@
 
 import { useEffect, useReducer } from "react";
 
+const clampNumber = (value: number, minimum: number) => {
+  if (!Number.isFinite(value)) return minimum;
+
+  return Math.max(minimum, Math.round(value));
+};
+
+type UseNumberPreferenceOptions = {
+  minimum?: number;
+};
+
 type PreferenceState = {
   loaded: boolean;
   value: number;
@@ -10,12 +20,6 @@ type PreferenceState = {
 type PreferenceAction =
   | { type: "hydrate"; payload: number }
   | { type: "set"; payload: number };
-
-const clampNumber = (value: number, minimum: number) => {
-  if (!Number.isFinite(value)) return minimum;
-
-  return Math.max(minimum, Math.round(value));
-};
 
 const preferenceReducer = (
   state: PreferenceState,
@@ -32,10 +36,6 @@ const preferenceReducer = (
     ...state,
     value: action.payload
   };
-};
-
-type UseNumberPreferenceOptions = {
-  minimum?: number;
 };
 
 export const useNumberPreference = (
@@ -67,10 +67,9 @@ export const useNumberPreference = (
   }, [state.loaded, state.value, storageKey]);
 
   return {
-    loaded: state.loaded,
     value: state.value,
-    setValue: (value: number) => {
-      dispatch({ type: "set", payload: clampNumber(value, minimum) });
+    setValue: (nextValue: number) => {
+      dispatch({ type: "set", payload: clampNumber(nextValue, minimum) });
     }
   };
 };
