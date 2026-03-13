@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  ArmchairIcon,
+  BrainIcon,
+  CoffeeIcon,
   PauseIcon,
   PlayIcon,
   RotateCcwIcon,
@@ -54,18 +57,21 @@ const Page = () => {
             type="button"
             className="btn btn-sm"
             onClick={() => setSessionType("focus")}>
+            <BrainIcon />
             Focus
           </button>
           <button
             type="button"
             className="btn btn-sm"
             onClick={() => setSessionType("short_break")}>
+            <CoffeeIcon />
             Short
           </button>
           <button
             type="button"
             className="btn btn-sm"
             onClick={() => setSessionType("long_break")}>
+            <ArmchairIcon />
             Long
           </button>
         </div>
