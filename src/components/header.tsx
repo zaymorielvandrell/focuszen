@@ -6,15 +6,15 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { isEditableElement } from "~/utils/dom";
 
-const NAV_ITEMS = [
+const NAV_ITEMS: Array<{
+  href: string;
+  icon: typeof TimerIcon;
+  label: string;
+  shortcut: string;
+}> = [
   { href: "/", icon: TimerIcon, label: "Timer", shortcut: "1" },
-  {
-    href: "/settings",
-    icon: SettingsIcon,
-    label: "Settings",
-    shortcut: "2"
-  }
-] as const;
+  { href: "/settings", icon: SettingsIcon, label: "Settings", shortcut: "2" }
+];
 
 const Header = () => {
   const pathname = usePathname();
@@ -25,10 +25,7 @@ const Header = () => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
         return;
       }
-
-      if (isEditableElement(event.target)) {
-        return;
-      }
+      if (isEditableElement(event.target)) return;
 
       const targetItem = NAV_ITEMS.find((item) => item.shortcut === event.key);
 
@@ -52,7 +49,7 @@ const Header = () => {
             FocusZen
           </Link>
         </div>
-        <div className="navbar-end justify-center gap-2 sm:justify-start">
+        <div className="navbar-end justify-center gap-2 sm:justify-end">
           {NAV_ITEMS.map(({ href, icon: Icon, label, shortcut }) => (
             <Link
               key={href}

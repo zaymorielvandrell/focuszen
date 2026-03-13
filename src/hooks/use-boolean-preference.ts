@@ -52,13 +52,13 @@ export const useBooleanPreference = (
       type: "hydrate",
       payload: storedValue === null ? fallbackValue : storedValue === "true"
     });
-  }, [fallbackValue, storageKey]);
+  }, [storageKey, fallbackValue]);
 
   useEffect(() => {
     if (!state.loaded) return;
 
     window.localStorage.setItem(storageKey, String(state.value));
-  }, [state.loaded, state.value, storageKey]);
+  }, [storageKey, state.loaded, state.value]);
 
   return {
     value: state.value,

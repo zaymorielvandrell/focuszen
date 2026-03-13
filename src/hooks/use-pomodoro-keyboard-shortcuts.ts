@@ -16,9 +16,7 @@ export const usePomodoroKeyboardShortcuts = ({
 }: ShortcutActions) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (isEditableElement(event.target)) {
-        return;
-      }
+      if (isEditableElement(event.target)) return;
 
       switch (event.code) {
         case "Space":
@@ -41,5 +39,5 @@ export const usePomodoroKeyboardShortcuts = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [resetTimer, skipSession, toggleTimer]);
+  }, [toggleTimer, resetTimer, skipSession]);
 };

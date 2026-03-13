@@ -76,8 +76,8 @@ const Settings = () => {
   };
 
   return (
-    <>
-      <div className="card mx-auto w-full max-w-xl bg-base-100 shadow-sm">
+    <div>
+      <div className="card mx-auto max-w-xl shadow">
         <div className="card-body">
           <div className="flex items-center gap-2">
             <SettingsIcon />
@@ -93,9 +93,7 @@ const Settings = () => {
                   min={1}
                   className="input"
                   value={value}
-                  onChange={(event) => {
-                    setValue(Number(event.target.value));
-                  }}
+                  onChange={(event) => setValue(Number(event.target.value))}
                 />
               </fieldset>
             ))}
@@ -157,7 +155,7 @@ const Settings = () => {
           </div>
         </div>
       </dialog>
-    </>
+    </div>
   );
 };
 

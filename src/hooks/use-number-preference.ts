@@ -58,13 +58,13 @@ export const useNumberPreference = (
       type: "hydrate",
       payload: clampNumber(parsedValue, minimum)
     });
-  }, [fallback, minimum, storageKey]);
+  }, [storageKey, fallback, minimum]);
 
   useEffect(() => {
     if (!state.loaded) return;
 
     window.localStorage.setItem(storageKey, String(state.value));
-  }, [state.loaded, state.value, storageKey]);
+  }, [storageKey, state.loaded, state.value]);
 
   return {
     value: state.value,

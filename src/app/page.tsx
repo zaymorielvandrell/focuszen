@@ -25,7 +25,13 @@ const SESSION_BUTTONS: Array<{
 ];
 
 const Page = () => {
-  const { settings } = usePomodoroSettings();
+  const {
+    focusMinutes,
+    shortBreakMinutes,
+    longBreakMinutes,
+    notificationsEnabled,
+    soundEnabled
+  } = usePomodoroSettings();
 
   const {
     sessionType,
@@ -35,7 +41,15 @@ const Page = () => {
     toggleTimer,
     resetTimer,
     skipSession
-  } = usePomodoroTimer({ settings });
+  } = usePomodoroTimer({
+    settings: {
+      focusMinutes: focusMinutes.value,
+      shortBreakMinutes: shortBreakMinutes.value,
+      longBreakMinutes: longBreakMinutes.value,
+      notificationsEnabled: notificationsEnabled.value,
+      soundEnabled: soundEnabled.value
+    }
+  });
 
   usePomodoroKeyboardShortcuts({
     toggleTimer,
@@ -44,7 +58,7 @@ const Page = () => {
   });
 
   return (
-    <div className="card w-full bg-base-100 shadow-sm">
+    <div className="card shadow">
       <div className="card-body">
         <div className="flex items-center justify-center gap-2">
           {SESSION_BUTTONS.map(

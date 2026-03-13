@@ -65,9 +65,9 @@ const getCompletionNotificationBody = (sessionType: SessionType) => {
 };
 
 const getNextSessionState = (
+  settings: PomodoroSettings,
   sessionType: SessionType,
-  sessionsCompleted: number,
-  settings: PomodoroSettings
+  sessionsCompleted: number
 ) => {
   const { nextSessionType, nextSessionsCompleted } = getNextSession(
     sessionType,
@@ -118,9 +118,9 @@ const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
       return {
         ...state,
         ...getNextSessionState(
+          state.settings,
           state.sessionType,
-          state.sessionsCompleted,
-          state.settings
+          state.sessionsCompleted
         )
       };
     }
@@ -138,9 +138,9 @@ const timerReducer = (state: TimerState, action: TimerAction): TimerState => {
       return {
         ...state,
         ...getNextSessionState(
+          state.settings,
           state.sessionType,
-          state.sessionsCompleted,
-          state.settings
+          state.sessionsCompleted
         ),
         shouldPlayCompletionSound: state.settings.soundEnabled,
         pendingNotification: {
@@ -183,6 +183,22 @@ export const usePomodoroTimer = ({
     soundEnabled
   } = settings;
 
+  const setSessionType = useCallback((sessionType: SessionType) => {
+    dispatch({ type: "set-session-type", payload: sessionType });
+  }, []);
+
+  const toggleTimer = useCallback(() => {
+    dispatch({ type: "toggle-timer" });
+  }, []);
+
+  const resetTimer = useCallback(() => {
+    dispatch({ type: "reset-timer" });
+  }, []);
+
+  const skipSession = useCallback(() => {
+    dispatch({ type: "skip-session" });
+  }, []);
+
   useEffect(() => {
     dispatch({
       type: "sync-settings",
@@ -196,19 +212,11 @@ export const usePomodoroTimer = ({
     });
   }, [
     focusMinutes,
+    shortBreakMinutes,
     longBreakMinutes,
     notificationsEnabled,
-    shortBreakMinutes,
     soundEnabled
   ]);
-
-  useEffect(() => {
-    if (!state.settings.notificationsEnabled) return;
-    if (!("Notification" in window)) return;
-    if (Notification.permission === "default") {
-      Notification.requestPermission().catch(() => {});
-    }
-  }, [state.settings.notificationsEnabled]);
 
   useEffect(() => {
     if (!state.isRunning) return;
@@ -231,6 +239,14 @@ export const usePomodoroTimer = ({
   }, [state.shouldPlayCompletionSound]);
 
   useEffect(() => {
+    if (!state.settings.notificationsEnabled) return;
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "default") {
+      Notification.requestPermission().catch(() => {});
+    }
+  }, [state.settings.notificationsEnabled]);
+
+  useEffect(() => {
     if (!state.pendingNotification) return;
 
     if (
@@ -245,22 +261,6 @@ export const usePomodoroTimer = ({
 
     dispatch({ type: "ack-notification" });
   }, [state.pendingNotification, state.settings.notificationsEnabled]);
-
-  const setSessionType = useCallback((sessionType: SessionType) => {
-    dispatch({ type: "set-session-type", payload: sessionType });
-  }, []);
-
-  const toggleTimer = useCallback(() => {
-    dispatch({ type: "toggle-timer" });
-  }, []);
-
-  const resetTimer = useCallback(() => {
-    dispatch({ type: "reset-timer" });
-  }, []);
-
-  const skipSession = useCallback(() => {
-    dispatch({ type: "skip-session" });
-  }, []);
 
   return {
     sessionType: state.sessionType,
