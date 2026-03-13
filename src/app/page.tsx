@@ -35,6 +35,7 @@ const Page = () => {
   );
 
   const {
+    sessionType,
     isRunning,
     timeDisplay,
     setSessionType,
@@ -55,21 +56,21 @@ const Page = () => {
         <div className="flex items-center justify-center gap-2">
           <button
             type="button"
-            className="btn btn-sm"
+            className={`btn btn-sm ${sessionType === "focus" ? "btn-active" : ""}`}
             onClick={() => setSessionType("focus")}>
             <BrainIcon />
             Focus
           </button>
           <button
             type="button"
-            className="btn btn-sm"
+            className={`btn btn-sm ${sessionType === "short_break" ? "btn-active" : ""}`}
             onClick={() => setSessionType("short_break")}>
             <CoffeeIcon />
             Short
           </button>
           <button
             type="button"
-            className="btn btn-sm"
+            className={`btn btn-sm ${sessionType === "long_break" ? "btn-active" : ""}`}
             onClick={() => setSessionType("long_break")}>
             <ArmchairIcon />
             Long

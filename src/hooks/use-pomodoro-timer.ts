@@ -210,6 +210,7 @@ export const usePomodoroTimer = ({
   }, [state.pendingNotification, state.settings.notificationsEnabled]);
 
   return {
+    sessionType: state.sessionType,
     isRunning: state.isRunning,
     timeDisplay: formatSecondsToClock(state.timeLeft),
     setSessionType: (sessionType: SessionType) => {

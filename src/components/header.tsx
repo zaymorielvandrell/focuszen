@@ -2,10 +2,11 @@
 
 import { SettingsIcon, TimerIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Header = () => {
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -48,12 +49,16 @@ const Header = () => {
           </Link>
         </div>
         <div className="navbar-end justify-center gap-2 sm:justify-start">
-          <Link href="/" className="btn btn-sm">
+          <Link
+            href="/"
+            className={`btn btn-sm ${pathname === "/" ? "btn-active" : ""}`}>
             <TimerIcon />
             <span className="hidden sm:inline-block">Timer</span>
             <kbd className="kbd hidden kbd-sm sm:inline-flex">1</kbd>
           </Link>
-          <Link href="/settings" className="btn btn-sm">
+          <Link
+            href="/settings"
+            className={`btn btn-sm ${pathname === "/settings" ? "btn-active" : ""}`}>
             <SettingsIcon />
             <span className="hidden sm:inline-block">Settings</span>
             <kbd className="kbd hidden kbd-sm sm:inline-flex">2</kbd>
