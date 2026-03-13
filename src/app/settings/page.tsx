@@ -18,25 +18,29 @@ const Settings = () => {
     soundEnabled
   } = usePomodoroSettings();
 
-  const handleResetData = () => {
+  const handleOpenRestoreDefaultsModal = () => {
+    const restoreDefaultsModal = document.getElementById(
+      "restore-defaults-modal"
+    );
+
+    if (restoreDefaultsModal instanceof HTMLDialogElement) {
+      restoreDefaultsModal.showModal();
+    }
+  };
+
+  const handleRestoreDefaults = () => {
     focusMinutes.setValue(SESSION_MINUTES.focus);
     shortBreakMinutes.setValue(SESSION_MINUTES.short_break);
     longBreakMinutes.setValue(SESSION_MINUTES.long_break);
     notificationsEnabled.setValue(true);
     soundEnabled.setValue(true);
 
-    const resetModal = document.getElementById("reset-data-modal");
+    const restoreDefaultsModal = document.getElementById(
+      "restore-defaults-modal"
+    );
 
-    if (resetModal instanceof HTMLDialogElement) {
-      resetModal.close();
-    }
-  };
-
-  const handleOpenResetModal = () => {
-    const resetModal = document.getElementById("reset-data-modal");
-
-    if (resetModal instanceof HTMLDialogElement) {
-      resetModal.showModal();
+    if (restoreDefaultsModal instanceof HTMLDialogElement) {
+      restoreDefaultsModal.close();
     }
   };
 
@@ -127,16 +131,16 @@ const Settings = () => {
             <button
               type="button"
               className="btn btn-block btn-error"
-              onClick={handleOpenResetModal}>
+              onClick={handleOpenRestoreDefaultsModal}>
               <RefreshCwIcon />
-              Reset Data
+              Restore Defaults
             </button>
           </div>
         </div>
       </div>
-      <dialog id="reset-data-modal" className="modal">
+      <dialog id="restore-defaults-modal" className="modal">
         <div className="modal-box">
-          <h3 className="text-base font-semibold">Reset Pomodoro Settings?</h3>
+          <h3 className="text-base font-semibold">Restore Default Settings?</h3>
           <p className="py-4">
             This will restore focus, short break, long break, notification, and
             sound preferences to their default values.
@@ -150,8 +154,8 @@ const Settings = () => {
             <button
               type="button"
               className="btn btn-error"
-              onClick={handleResetData}>
-              Reset Data
+              onClick={handleRestoreDefaults}>
+              Restore Defaults
             </button>
           </div>
         </div>
