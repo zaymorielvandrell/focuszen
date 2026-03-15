@@ -1,9 +1,11 @@
 "use client";
 
 import { SettingsIcon, TimerIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Logo from "~/assets/logo.png";
 import { isEditableElement } from "~/utils/dom";
 
 const NAV_ITEMS: Array<{
@@ -45,8 +47,8 @@ const Header = () => {
     <header>
       <nav className="navbar flex-col gap-4 sm:flex-row">
         <div className="navbar-start justify-center sm:justify-start">
-          <Link href="/" className="text-xl font-semibold">
-            FocusZen
+          <Link href="/">
+            <Image src={Logo} alt="Logo" width={36} height={36} />
           </Link>
         </div>
         <div className="navbar-end justify-center gap-2 sm:justify-end">

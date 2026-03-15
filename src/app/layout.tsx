@@ -8,8 +8,23 @@ const sans = Inter({ variable: "--font-sans", subsets: ["latin"] });
 const mono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://focuszen.zaymoriel.com"),
   title: { default: "FocusZen", template: "%s | FocusZen" },
-  description: "..."
+  description: "A minimal Pomodoro timer for focused work and mindful breaks.",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png" },
+      { url: "/favicon-32x32.png" },
+      { url: "/favicon.ico" }
+    ],
+    apple: "/apple-touch-icon.png"
+  },
+  openGraph: {
+    images: [{ url: "/opengraph-image.png", alt: "FocusZen" }],
+    url: "https://focuszen.zaymoriel.com",
+    type: "website"
+  },
+  twitter: { creator: "@zaymoriel" }
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
