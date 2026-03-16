@@ -127,7 +127,7 @@ const Page = () => {
       </div>
       <div className="flex flex-col gap-16">
         <div>
-          <h1 className="text-xl font-semibold sm:text-2xl md:text-3xl">
+          <h1 className="font-serif text-xl font-semibold sm:text-2xl md:text-3xl">
             Online Pomodoro Timer to Get More Done
           </h1>
           <p className="mt-4">
@@ -136,7 +136,7 @@ const Page = () => {
           </p>
         </div>
         <div>
-          <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+          <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
             What is FocusZen?
           </h2>
           <p className="mt-4">
@@ -146,7 +146,7 @@ const Page = () => {
           </p>
         </div>
         <div>
-          <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+          <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
             What is the Pomodoro method?
           </h2>
           <p className="mt-4">
@@ -156,7 +156,7 @@ const Page = () => {
           </p>
         </div>
         <div>
-          <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+          <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
             How to use this timer
           </h2>
           <ol className="mt-4 list-decimal space-y-1 pl-6">
@@ -169,7 +169,7 @@ const Page = () => {
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <div>
-            <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+            <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
               Current features
             </h2>
             <ul className="mt-4 list-disc space-y-1 pl-6 text-pretty">
@@ -180,7 +180,7 @@ const Page = () => {
             </ul>
           </div>
           <div>
-            <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+            <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
               Planned upgrades
             </h2>
             <ul className="mt-4 list-disc space-y-1 pl-6 text-pretty">

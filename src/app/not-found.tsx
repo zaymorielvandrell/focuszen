@@ -4,7 +4,7 @@ const NotFound = () => {
   return (
     <div className="fz-surface-glow fz-surface-glow--top-right card mx-auto max-w-xl shadow">
       <div className="card-body items-center text-center">
-        <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+        <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
           Not Found
         </h2>
         <p className="mt-2 mb-6">

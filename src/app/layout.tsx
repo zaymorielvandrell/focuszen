@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, JetBrains_Mono, Public_Sans } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import Header from "~/components/header";
 import "~/styles/globals.css";
 
-const sans = Inter({ variable: "--font-sans", subsets: ["latin"] });
+const sans = Public_Sans({ variable: "--font-sans", subsets: ["latin"] });
+const serif = Fraunces({ variable: "--font-serif", subsets: ["latin"] });
 const mono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html
       lang="en"
       data-theme="light"
-      className={`${sans.variable} ${mono.variable}`}>
+      className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
       <body>
         <div className="container mx-auto max-w-3xl px-4">
           <Header />

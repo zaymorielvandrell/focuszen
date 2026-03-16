@@ -81,7 +81,7 @@ const Settings = () => {
         <div className="card-body">
           <div className="flex items-center gap-2">
             <SettingsIcon />
-            <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+            <h2 className="font-serif text-lg font-semibold sm:text-xl md:text-2xl">
               Settings
             </h2>
           </div>
@@ -137,7 +137,7 @@ const Settings = () => {
       </div>
       <dialog ref={restoreDefaultsModalRef} className="modal">
         <div className="modal-box">
-          <h3 className="text-base font-semibold sm:text-lg md:text-xl">
+          <h3 className="font-serif text-base font-semibold sm:text-lg md:text-xl">
             Restore Default Settings?
           </h3>
           <p className="my-4">
