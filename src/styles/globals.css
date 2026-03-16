@@ -49,3 +49,21 @@
     @apply size-4;
   }
 }
+
+@layer components {
+  .fz-surface-glow {
+    background-image: radial-gradient(
+      circle at var(--fz-surface-glow-position),
+      color-mix(in oklch, var(--color-primary) 10%, transparent) 0%,
+      transparent 50%
+    );
+  }
+
+  .fz-surface-glow--top-left {
+    --fz-surface-glow-position: 15% 20%;
+  }
+
+  .fz-surface-glow--top-right {
+    --fz-surface-glow-position: 85% 20%;
+  }
+}

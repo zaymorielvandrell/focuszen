@@ -77,7 +77,7 @@ const Settings = () => {
 
   return (
     <div>
-      <div className="card mx-auto max-w-xl shadow">
+      <div className="fz-surface-glow fz-surface-glow--top-right card mx-auto max-w-xl shadow">
         <div className="card-body">
           <div className="flex items-center gap-2">
             <SettingsIcon />

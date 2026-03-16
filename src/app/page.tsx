@@ -58,7 +58,7 @@ const Page = () => {
   });
 
   return (
-    <div className="card shadow">
+    <div className="fz-surface-glow fz-surface-glow--top-left card shadow">
       <div className="card-body">
         <div className="flex items-center justify-center gap-2">
           {SESSION_BUTTONS.map(
