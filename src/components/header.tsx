@@ -48,7 +48,7 @@ const Header = () => {
       <nav className="navbar flex-col gap-4 sm:flex-row">
         <div className="navbar-start justify-center sm:justify-start">
           <Link href="/">
-            <Image src={Logo} alt="Logo" width={36} height={36} />
+            <Image src={Logo} alt="FocusZen Logo" width={36} height={36} />
           </Link>
         </div>
         <div className="navbar-end justify-center gap-2 sm:justify-end">

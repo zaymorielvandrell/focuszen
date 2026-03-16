@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://focuszen.zaymoriel.com"),
   title: { default: "FocusZen", template: "%s | FocusZen" },
   description: "A minimal Pomodoro timer for focused work and mindful breaks.",
+  robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
   icons: {
     icon: [
       { url: "/favicon-16x16.png" },
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
     url: "https://focuszen.zaymoriel.com",
     type: "website"
   },
-  twitter: { creator: "@zaymoriel" }
+  twitter: { card: "summary_large_image", creator: "@zaymoriel" }
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {

@@ -81,7 +81,9 @@ const Settings = () => {
         <div className="card-body">
           <div className="flex items-center gap-2">
             <SettingsIcon />
-            <h2 className="text-lg font-semibold">Settings</h2>
+            <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
+              Settings
+            </h2>
           </div>
           <div className="divider opacity-40"></div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -135,8 +137,10 @@ const Settings = () => {
       </div>
       <dialog ref={restoreDefaultsModalRef} className="modal">
         <div className="modal-box">
-          <h3 className="text-base font-semibold">Restore Default Settings?</h3>
-          <p className="py-4">
+          <h3 className="text-base font-semibold sm:text-lg md:text-xl">
+            Restore Default Settings?
+          </h3>
+          <p className="my-4">
             This will restore focus, short break, long break, notification, and
             sound preferences to their default values.
           </p>
